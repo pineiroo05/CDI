@@ -1,13 +1,12 @@
 package com.mycompany.practica1;
 import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
+import static java.lang.Math.*;
 
 //Importante. Revisar statics
 
 public class Practica1{
-    
     public static void main(String[] args) {
+        //THREADS INDIVIDUALES
         Thread hilo1R=new Thread(new hiloRunnable(), "0");
         Thread hilo2R=new Thread(new hiloRunnable(), "1");
         Thread hilo3R=new Thread(new hiloRunnable(), "2");
@@ -24,7 +23,7 @@ public class Practica1{
         hilo2T.start();
         hilo3T.start();
         
-        //Con thread compartido
+        //CON THREAD COMPARTIDO
         hiloRunnable hiloCompartido=new hiloRunnable();
         Thread hilo4R=new Thread(hiloCompartido, "6");
         Thread hilo5R=new Thread(hiloCompartido, "7");
@@ -32,33 +31,61 @@ public class Practica1{
         hilo4R.start();
         hilo5R.start();
         
-        //Crear varios hilos de golpe
+        //CREAR VARIOS HILOS DE GOLPE
         Scanner scan=new Scanner(System.in);
         System.out.println("-Numero de hilos-");
         int nHilos=scan.nextInt();
         
         Thread listaThreads[]=new Thread[nHilos];
-        for(int i=1;i<nHilos;i++){
+        for(int i=0; i<nHilos; i++){
             listaThreads[i]=new Thread(new hiloRunnable(),"0"+i);
             listaThreads[i].start();
         }
         
         Thread threadsR[]=new Thread[nHilos];
         hiloRunnable myThreadsR[]=new hiloRunnable[nHilos];
-        for(int i=1;i<nHilos;i++){
+        for(int i=0; i<nHilos; i++){
             myThreadsR[i]=new hiloRunnable();
             threadsR[i]=new Thread(myThreadsR[i],"1"+i);
-            listaThreads[i].start();
+            threadsR[i].start();
         }
-        
-        for(int i=0;i<nHilos;i++){
+        //Usando join
+        for(int i=0; i<nHilos; i++){
             try{
                 listaThreads[i].join();
                 threadsR[i].join();
             }catch(InterruptedException err){}
         }
-        //Ponerlo siempre
+        //Usando isAlive
+        for(int i=0; i<nHilos; i++){
+            while(listaThreads[i].isAlive()){
+                try{
+                    Thread.sleep(10);
+                }catch(InterruptedException err){}
+            }
+            while(threadsR[i].isAlive()){
+                try{
+                    Thread.sleep(10);
+                }catch(InterruptedException err){}
+            }
+        }
+
+        //EJERCICIO MEDICIONES
+        int numHilos=3;
+        MyThread[] threadsMedicion=new MyThread[numHilos];
+        for(int i=0; i<numHilos; i++){
+            threadsMedicion[i]=new MyThread("Hilo"+i);
+            threadsMedicion[i].start();
+        }
+        for(int i=0; i<numHilos; i++){
+            try{
+                threadsMedicion[i].join();
+            }catch(InterruptedException err){}
+        }
+
+        //PONERLO SIEMPRE
         System.out.println("Programa terminado");
+        scan.close();
     }
 }
 
@@ -86,6 +113,31 @@ class hiloThread extends Thread{
     }
 }
 
+class MyThread extends Thread{
+    public MyThread(String name){
+        super(name);
+    }
+
+    public void run(){
+        long inicio=System.currentTimeMillis();
+        System.out.println(getName()+" iniciado en "+inicio);
+        for(int i=0; i<1000000; ++i) {
+            double d=tan(atan(
+                tan(atan(
+                    tan(atan(
+                        tan(atan(
+                            tan(atan(123456789.123456789))
+                            ))
+                        ))
+                    ))
+                ));
+            cbrt(d);
+        }
+        long fin=System.currentTimeMillis();
+        System.out.println(getName()+" finalizado en "+fin);
+    }
+}
+
 /*
     ver que todos los hilos compartan el mismo runnable.
     con varios:
@@ -97,5 +149,5 @@ class hiloThread extends Thread{
     ver join() e isAlive(C), y las diferencias
     - isAlive() espera a que el hilo a terminado de ejecutarse. Hay que preguntar a todos los hilos si han acabado
         - h1 acaba? voy al 2 --> h2 acaba? voy al 3 ...
-    - join() el proceso está dormido hasta que acabe
+    - join() el proceso está dormido hasta que acaben los hilos. por esto el programa terminado aparece al final
 */
