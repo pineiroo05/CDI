@@ -122,15 +122,7 @@ class MyThread extends Thread{
         long inicio=System.currentTimeMillis();
         System.out.println(getName()+" iniciado en "+inicio);
         for(int i=0; i<1000000; ++i) {
-            double d=tan(atan(
-                tan(atan(
-                    tan(atan(
-                        tan(atan(
-                            tan(atan(123456789.123456789))
-                            ))
-                        ))
-                    ))
-                ));
+            double d=tan(atan(tan(atan(tan(atan(tan(atan(tan(atan(123456789.123456789))))))))));
             cbrt(d);
         }
         long fin=System.currentTimeMillis();
