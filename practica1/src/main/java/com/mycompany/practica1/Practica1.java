@@ -138,7 +138,8 @@ class MyThread extends Thread{
     - h3 -> runnable -> cont
     de la otra forma todos los hilos van al mismo runnable y comparten el contador
     ----------
-    ver join() e isAlive(C), y las diferencias
+    ver join() e isAlive(C), y las diferencias (TEORIAAAAAA)
+    Recomendado usar join()
     - isAlive() espera a que el hilo a terminado de ejecutarse. Hay que preguntar a todos los hilos si han acabado
         - h1 acaba? voy al 2 --> h2 acaba? voy al 3 ...
     - join() el proceso está dormido hasta que acaben los hilos. por esto el programa terminado aparece al final
