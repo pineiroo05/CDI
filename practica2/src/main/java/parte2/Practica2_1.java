@@ -1,7 +1,7 @@
 package parte2;
 import java.util.Scanner;
 
-public class Practica2b {
+public class Practica2_1 {
     public static void main(String[] args) {
         var scan = new Scanner(System.in);
         System.out.println("Numero de hilos");

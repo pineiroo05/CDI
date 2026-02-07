@@ -1,4 +1,4 @@
-package com.mycompany.practica2;
+package parte1;
 import java.util.Scanner;
 
 public class Practica2 {
