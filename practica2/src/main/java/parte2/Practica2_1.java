@@ -40,13 +40,15 @@ class myThread implements Runnable{
 
     public void run(){
         System.out.println("Hello world, I'm the java thread number "+Thread.currentThread().getName());
-        for(int i=0; i<10; i++){
+        int i=0;
+        while(i<10 && !Thread.currentThread().isInterrupted()){
             this.mySum.set(getMySum()+1);
+            i++;
             try{
                 Thread.sleep(500);
             }catch(InterruptedException err){
                 System.err.println("Hilo "+Thread.currentThread().getName()+" interrumpido mientras dormia");
-                return;
+                break;
             }
         }
         System.out.println("Bye from the java thread number "+Thread.currentThread().getName());
